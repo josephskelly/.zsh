@@ -1,2 +1,4 @@
 *~
 *.swp
+.zsh_sessions
+.zcompdump
