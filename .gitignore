@@ -2,3 +2,4 @@
 *.swp
 .zsh_sessions
 .zcompdump
+.z_history
