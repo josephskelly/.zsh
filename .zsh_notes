@@ -129,4 +129,8 @@ Use `pushd -v` to see the stack with numbers assigned.
 
 ## Chapter 5: Filename Generation
 
-We are just testing github push.
+### ls
+`ls -d *(/)` for directories in current directory
+`ls *(.)` for regular files in current directory
+`ls *(@)` for symbolic links in current directory
+
