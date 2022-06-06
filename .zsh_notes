@@ -1,0 +1,132 @@
+# Zsh Notes
+
+## Chapter 0: Help and Manual
+
+`man zshall` for meta-man page and pattern matching
+`man zsh` for man page
+`man zshbuiltins` for built-in commands
+
+`apropos <command>` for all matching commands
+`type <command> for command type
+
+
+## Chapter 2: Startup Files
+
+/etc/zshenv
+	Always run for every zsh.
+
+~/.zshenv
+	Usually run for every zsh.
+
+/etc/zprofile
+	Run for login shells.
+
+~/.zprofile
+	Run for login shells.
+
+/etc/zshrc
+	Run for interactive shells.
+
+~/.zshrc
+	Run for interactive shells.
+
+/etc/.zlogin
+	Run for login shells.
+
+~/.zlogin
+	Run for login shells.
+
+~/.zlogout
+	Run at end of login shells.
+
+/etc/zlogout
+	Run at end of login shells.
+
+Startup files are executed in this order. The files in /etc/ are set by the system administrator and are run for all users. The files in $HOME are user specific. A prompt signifies that you are in an interactive shell. So, if I wanted to add something to my $PATH, I'd most likely want to do it for user specific interactive shells. Therefore, I'd add it in my ~/.zshrc file. But, the author of the zsh guide says to put environment variables into .zshenv to avoid problems with shells started by a windowing system.
+If option NO_RCS is set in /etc/zshenv none of the other files are run. This option is usually used in scripts to get a clean environment. i.e. Start the shell with `zsh -f`
+
+Avoid writing anything in /etc/zshenv. If you do put anything in there surround it with a check for the norcs option.
+
+	if [[ ! -o norcs ]]; then
+	    ... <commands to run if NO_RCS is not set, 
+		 such as setting options> ...
+	fi
+
+## Chapter 3: Dealing with basic shell syntax
+
+### 3.1 External Commands
+
+`rehash` if you change environment file hierarchy.
+A hash table is necessary for command completion.
+Set `HASH_LIST_ALL` to include all possible command completions.
+`setopt noHASH_LIST_ALL`
+
+### 3.2 Builtin Commands
+
+`man zshbuiltins` for man page for builtin commands like print
+
+#### 3.2.1 Builtins for Printing
+
+`echo` vs `print`: `print` has more options.
+
+`print -z` adds to the editing buffer.
+	`fn() { print -z print The time is now $(date); }`
+
+`print -P '%Bbold%Sreverse%b%s'`
+
+#### 3.2.2 Other builtins just for speed
+
+if [[ $var1 = $var2 ]]; then
+    print doing something
+fi
+
+3.2.3 Builtins which change the shell's state
+
+Putting parentheses around a command asks the shell to start a different process for it.
+	`(cd some-other-dir; run-some-command)`
+This runs the command, but doesn't change the directory the shell is in.
+
+	`cd some-other-dir | print Hello`
+This doesn't change the directory either.
+	`print Hello | cd some-other-dir`
+This does change the directory
+
+#### 3.2.4 cd and Friends
+
+`cd` or `cd ~` take you home
+
+`cd -` takes you to the last directory you were in
+
+`pwd` prints the working directory
+
+##### Symbolic Links
+
+`ln -s existing-file-name name-of-link` creates a symbolic link called name-of-link. Can link directories, too. Symbolic links (with the -s option) are more useful and easier to manage than hard links. Use absolute paths.
+
+##### $cdpath and AUTO_CD
+
+Use ./ at the start of your path to avoid any issues with $cdpath redirecting you.
+
+##### The Directory Stack
+
+`pushd <dirname>` to navigate like cd and add your current directory to the directory stack.
+
+`popd` to return to your previous directory
+
+Use `dirs` to see the directory stack
+
+`setopt PUSHD_SILENT` to turn off automatic directory stack listing when using pushd.
+
+`pushd` with a +/- integer will navigate to that directory in the stack
+
+Use `pushd -v` to see the stack with numbers assigned.
+
+
+
+
+
+
+
+## Chapter 5: Filename Generation
+
+We are just testing github push.
